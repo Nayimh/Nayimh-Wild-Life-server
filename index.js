@@ -80,8 +80,8 @@ async function run() {
 
         //get 
         app.get("/booking", async (req, res) => {
-            const cursor = bookingCollection.find({});
-            const result = cursor.toArray();
+            const cursor =  bookingCollection.find({});
+            const result = await cursor.toArray();
             res.json(result);
         })
 
