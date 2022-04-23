@@ -58,6 +58,29 @@ async function run() {
             res.send(package);
         })
 
+        //update 
+        app.put("/package/:id", async (req, res) => {
+            const id = req.params.id;
+            const updatePackage = req.body;
+            const filter = { _id: ObjectId(id) };
+            const option = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    packageTitle: updatePackage.title,
+                    packageimg: updatePackage.img,
+                    guide: updatePackage.person,
+                    description: updatePackage.desc,
+                    tripType: updatePackage.type,
+                    price: updatePackage.price,
+                    location: updatePackage.location,
+                    time: updatePackage.time,
+                },
+            };
+            const result = await packageCollection.updateOne(filter, updateDoc, option);
+            res.json(result);
+        })
+
+
         //review section
         app.get("/reviews", async (req, res) => {
             const cursor = reviewCollection.find({});
@@ -72,20 +95,20 @@ async function run() {
         })
 
         //booking section
-        //post 
+        //post ..
         app.post("/booking", async (req, res) => {
             const booking = await bookingCollection.insertOne(req.body);
             res.json(booking);
         })
 
-         //get 
+         //get ..
          app.get("/booking", async (req, res) => {
             const cursor =  bookingCollection.find({});
             const result = await cursor.toArray();
             res.json(result);
         })
 
-        //get by email
+        //get by email..
         app.get("/booking/:email", async (req, res) => {
             const email = req.params.email;
             const cursor = bookingCollection.find({});
