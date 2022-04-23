@@ -78,8 +78,8 @@ async function run() {
             res.json(booking);
         })
 
-        //get 
-        app.get("/booking", async (req, res) => {
+         //get 
+         app.get("/booking", async (req, res) => {
             const cursor =  bookingCollection.find({});
             const result = await cursor.toArray();
             res.json(result);
@@ -100,6 +100,25 @@ async function run() {
             const booking = await bookingCollection.findOne(query);
             req.json(booking);
         })
+
+        // update Order
+        app.put("/booking/:id", async (req, res) => {
+            const statusId = req.params.id;
+            const updateStatus = req.body;
+            const filter = { _id: ObjectId(statusId) };
+            const option = { upsert: true };
+            const updateOrder = {
+              $set: {
+                status: updateStatus.status,
+              },
+            };
+            const acceptstatus = await bookingCollection.updateOne(
+              filter,
+              updateOrder,
+              option
+            );
+            res.json(acceptstatus);
+          });
 
         //delete
         app.delete("/booking/:id", async (req, res) => {
