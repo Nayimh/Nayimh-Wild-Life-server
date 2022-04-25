@@ -106,23 +106,23 @@ async function run() {
             const cursor =  bookingCollection.find({});
             const result = await cursor.toArray();
             res.json(result);
-        })
-
-        //get by email..
-        app.get("/booking/:email", async (req, res) => {
-            const email = req.params.email;
-            const cursor = bookingCollection.find({});
-            const bookings = await cursor.toArray();
-            const userBooking = bookings.filter((mail) => mail.email === email);
-            res.json(userBooking);
-        })
-
-        //get by id
-        app.get("/booking/:id", async (req, res) => {
-            const query = { _id: ObjectId(req.params.id) };
+         })
+         //get by id
+         app.get("/booking/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
             const booking = await bookingCollection.findOne(query);
-            req.json(booking);
+            res.json(booking);
         })
+
+       
+
+       
+        // app.get("/booking/:id", async (req, res) => {
+        //     const query = { _id: ObjectId(req.params.id) };
+        //     const booking = await bookingCollection.findOne(query);
+        //     res.json(booking);
+        // })
 
         // update Order
         app.put("/booking/:id", async (req, res) => {
