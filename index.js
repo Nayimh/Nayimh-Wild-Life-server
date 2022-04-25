@@ -109,6 +109,16 @@ async function run() {
             res.json(result);
          })
         
+         //get by id
+         app.get("/booking/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const booking = await bookingCollection.findOne(query);
+            res.json(booking);
+        })
+        
+        
+        
          //get by email
         
         app.get("/booking/:email", async (req, res) => {
@@ -119,17 +129,7 @@ async function run() {
             res.json(userBooking);
         })
         
-         //get by id
-         app.get("/booking/:id", async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const booking = await bookingCollection.findOne(query);
-            res.json(booking);
-        })
-
-       
-
-       
+        
       
 
         // update Order
