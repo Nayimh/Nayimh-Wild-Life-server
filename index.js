@@ -8,6 +8,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
 
 const cli = require('nodemon/lib/cli');
+const res = require('express/lib/response');
 
 const port = process.env.PORT || 5000;
 
@@ -107,6 +108,17 @@ async function run() {
             const result = await cursor.toArray();
             res.json(result);
          })
+        
+         //get by email
+        
+        app.get("/booking/:email", async (req, res) => {
+            const email = req.params.email;
+            const singleBooking = bookingCollection.find({});
+            const bookings = await singleBooking.toArray();
+            const userBooking = bookings.filter((mail) => (mail.email === email));
+            res.json(userBooking);
+        })
+        
          //get by id
          app.get("/booking/:id", async (req, res) => {
             const id = req.params.id;
@@ -118,11 +130,7 @@ async function run() {
        
 
        
-        // app.get("/booking/:id", async (req, res) => {
-        //     const query = { _id: ObjectId(req.params.id) };
-        //     const booking = await bookingCollection.findOne(query);
-        //     res.json(booking);
-        // })
+      
 
         // update Order
         app.put("/booking/:id", async (req, res) => {
